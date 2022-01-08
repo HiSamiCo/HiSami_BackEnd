@@ -12,6 +12,10 @@ const getUserByEmail = (email) => {
   return getUserBy({ email }).first();
 };
 
+const getUserById = (user_id) => {
+  return getUserBy({ user_id }).first();
+};
+
 const insertUser = async (user) => {
   // WITH POSTGRES WE CAN PASS A "RETURNING ARRAY" AS 2ND ARGUMENT TO knex.insert/update
   // AND OBTAIN WHATEVER COLUMNS WE NEED FROM THE NEWLY CREATED/UPDATED RECORD
@@ -31,4 +35,5 @@ module.exports = {
   getAllUsers,
   insertUser,
   getUserByEmail,
+  getUserById,
 };
