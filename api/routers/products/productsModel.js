@@ -4,6 +4,10 @@ const addCategory = (categ) => {
   return db("product_categories").insert(categ, "name");
 };
 
+const getProductCategoryByName = (name) => {
+  return db("product_categories").where(name).first();
+};
+
 const updateCategory = (categ, newCateg) => {
   return db("product_categories").where("category_id", categ).update(newCateg);
 };
@@ -23,4 +27,5 @@ module.exports = {
   updateCategory,
   addProduct,
   updateProduct,
+  getProductCategoryByName,
 };
