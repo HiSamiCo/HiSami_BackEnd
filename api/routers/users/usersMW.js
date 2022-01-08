@@ -1,5 +1,6 @@
 const Users = require("./usersModel");
 const bcrypt = require("bcrypt");
+const jwt = require("jwt-decode");
 
 const validateUserPayload = (req, res, next) => {
   const { body } = req;
@@ -51,9 +52,36 @@ const hashPassword = (req, res, next) => {
   next();
 };
 
+const isAuthorized = (req, res, next) => {
+  const token = req.headers.authorization;
+  if (!token) {
+    next({ message: "you are not logged in", status: 401 });
+  } else {
+    const User = jwt(token);
+    req.sentUser = User;
+    next();
+  }
+};
+
+const isAdmin = async (req, res, next) => {
+  try {
+    const { subject } = req.sentUser;
+    const { admin } = await Users.getUserById(subject);
+    if (!admin) {
+      next({ message: "You are not an admin", status: 401 });
+    } else {
+      next();
+    }
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   checkEmailUnique,
   checkEmailExists,
   hashPassword,
   validateUserPayload,
+  isAuthorized,
+  isAdmin,
 };
