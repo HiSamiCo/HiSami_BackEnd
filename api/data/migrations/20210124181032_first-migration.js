@@ -20,7 +20,7 @@ exports.up = async (knex) => {
       product.string("details");
       product.integer("price").notNullable();
       product
-        .integer("category")
+        .integer("category_id")
         .notNullable()
         .references("category_id")
         .inTable("product_categories")
@@ -31,14 +31,14 @@ exports.up = async (knex) => {
     .createTable("users_cart_products", (item) => {
       item.increments("cart_item_id");
       item
-        .integer("user")
+        .integer("user_id")
         .notNullable()
         .references("user_id")
         .inTable("users")
         .onDelete("RESTRICT")
         .onUpdate("RESTRICT");
       item
-        .integer("product")
+        .integer("product_id")
         .notNullable()
         .references("product_id")
         .inTable("products")

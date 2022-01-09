@@ -1,4 +1,5 @@
 const Products = require("./productsModel.js");
+const productSchema = require("../../schemas/product");
 
 const categoryUnique = async (req, res, next) => {
   try {
@@ -13,6 +14,16 @@ const categoryUnique = async (req, res, next) => {
   }
 };
 
+const validateProductPayload = (req, res, next) => {
+  try {
+    const { body } = req.body;
+    productSchema.validate(body);
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   categoryUnique,
+  validateProductPayload,
 };
