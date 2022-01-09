@@ -4,8 +4,28 @@ const addCategory = (categ) => {
   return db("product_categories").insert(categ, "name");
 };
 
+const getProducts = () => {
+  return db("products as p")
+    .join("product_categories as p_c", "p.category_id", "=", "p_c.category_id")
+    .select("p.*", "p_c.name as category");
+};
+
 const getProductCategories = () => {
   return db("product_categories");
+};
+
+const getAllCategoryProducts = async () => {
+  const products = await getProducts();
+  // get array of all categories
+  const categories = products.reduce((list, product) => {
+    return list.includes(product.category) ? list : [...list, product.category];
+  }, []);
+  // create object with key equal to category and value of products in that category
+  const categoryProducts = categories.reduce((object, category) => {
+    object[category] = products.filter((p) => p.category === category);
+    return object;
+  }, {});
+  return categoryProducts;
 };
 
 const getProductCategoryByName = (name) => {
@@ -18,7 +38,14 @@ const updateCategory = (categ, newCateg) => {
 
 const addProduct = (prod) => {
   return db("products")
-    .insert(prod, ["name", "quantity", "details", "price", "category", "image"])
+    .insert(prod, [
+      "name",
+      "quantity",
+      "details",
+      "price",
+      "category_id",
+      "image",
+    ])
     .then(([product]) => product);
 };
 
@@ -33,4 +60,6 @@ module.exports = {
   updateProduct,
   getProductCategories,
   getProductCategoryByName,
+  getProducts,
+  getAllCategoryProducts,
 };
