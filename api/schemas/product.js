@@ -1,12 +1,12 @@
 const yup = require("yup");
 
 const productSchema = yup.object().shape({
-  name: yup.string(),
-  quantity: yup.number(),
-  details: yup.string(),
-  price: yup.number(),
-  category_id: yup.number(),
-  image: yup.string(),
+  name: yup.string().trim().required(),
+  quantity: yup.number().required().min(0),
+  details: yup.string().trim(),
+  price: yup.number().required().min(0),
+  category_id: yup.number().required(),
+  image: yup.string().trim().required(),
 });
 
 module.exports = productSchema;

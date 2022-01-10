@@ -24,7 +24,10 @@ describe("server.js", () => {
 });
 
 describe("GET /api/users", () => {
-  it("returns all users", () => {
-    request(server).get("/api/users");
+  it("returns all users", (done) => {
+    request(server).get("/api/users")
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200, done);
   });
 });
