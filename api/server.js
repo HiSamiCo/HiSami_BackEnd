@@ -3,6 +3,8 @@ const helmet = require("helmet");
 const cors = require("cors");
 const usersRouter = require("./routers/users/usersRouter");
 const productsRouter = require("./routers/products/productsRouter");
+const cartsRouter = require("./routers/carts/cartsRouter");
+const userMW = require("./routers/users/usersMW")
 
 const server = express();
 server.use(express.json());
@@ -11,6 +13,7 @@ server.use(cors());
 
 server.use("/api/users", usersRouter);
 server.use("/api/products", productsRouter);
+server.use("/api/carts", userMW.isAuthorized, cartsRouter);
 
 // eslint-disable-next-line
 server.use((err, req, res, next) => {
