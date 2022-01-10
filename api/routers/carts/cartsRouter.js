@@ -3,8 +3,13 @@ const Carts = require("./cartsModel")
 const MW = require("./cartsMW")
 // const Products = require("../products/productsModel")
 
-router.get("/", (req, res, next) => {
-
+router.get("/", async (req, res, next) => {
+    try {
+        const cart = await Carts.getUserCart(req.sentUser.subject)
+        res.status(200).json(cart) 
+    } catch(err) {
+        next(err)
+    }
 })
 
 // const product = await Products.getProductById(body.product_id)
