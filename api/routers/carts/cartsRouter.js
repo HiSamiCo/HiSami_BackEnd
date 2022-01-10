@@ -27,7 +27,17 @@ router.post("/create", MW.validateCartPayload, async (req, res, next) => {
     }
 })
 
-router.put("/update",  (req, res, next) => {
+router.put("/update", async (req, res, next) => {
+ try {
+    const { cart_item_id, quantity } = req.body
+    const updatedCart = await Carts.updateCart(cart_item_id, { quantity })
+    res.status().json(updatedCart)
+ } catch(err) {
+     next(err)
+ }
+})
+
+router.delete("/", (req, res, next) => {
 
 })
 

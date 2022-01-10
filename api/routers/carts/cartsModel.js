@@ -16,7 +16,12 @@ const addCart = (cart) => {
     ]).then(([item]) => item)
 }
 
+const updateCart = (cart_item_id, cart) => {
+    return db("users_cart_products").where({ cart_item_id }).update(cart)
+}
+
 module.exports = {
     addCart,
-    getUserCart
+    getUserCart,
+    updateCart
 }
