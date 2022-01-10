@@ -18,7 +18,7 @@ exports.up = async (knex) => {
       product.string("name").notNullable();
       product.integer("quantity");
       product.string("details");
-      product.integer("price").notNullable();
+      product.float("price").notNullable();
       product
         .integer("category_id")
         .notNullable()

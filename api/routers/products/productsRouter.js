@@ -24,6 +24,7 @@ router.post(
   "/create/products",
   userMW.isAuthorized,
   userMW.isAdmin,
+  MW.validateProductPayload,
   async (req, res, next) => {
     try {
       const createdProduct = await Products.addProduct(req.body);

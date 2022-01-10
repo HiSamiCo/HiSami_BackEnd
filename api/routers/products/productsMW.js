@@ -14,10 +14,12 @@ const categoryUnique = async (req, res, next) => {
   }
 };
 
-const validateProductPayload = (req, res, next) => {
+const validateProductPayload = async (req, res, next) => {
   try {
-    const { body } = req.body;
-    productSchema.validate(body);
+    const { body } = req;
+    const valid = await productSchema.validate(body)
+    if (valid) next()
+
   } catch (err) {
     next(err);
   }
