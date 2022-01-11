@@ -7,7 +7,7 @@ exports.seed = function (knex) {
       return knex("products").insert([
         {
           product_id: -1,
-          name: "Monstera Clay Earings",
+          product_name: "Monstera Clay Earings",
           stock: 200,
           details: "",
           price: 20.0,
@@ -17,7 +17,7 @@ exports.seed = function (knex) {
         },
         {
           product_id: -2,
-          name: "Wildflower Screen Print Clay Earings",
+          product_name: "Wildflower Screen Print Clay Earings",
           stock: 100,
           details: "",
           price: 20.0,
