@@ -10,6 +10,10 @@ const getProducts = () => {
     .select("p.*", "p_c.name as category");
 };
 
+const getProductById = (product_id) => {
+  return db("products").where({ product_id }).first()
+}
+
 const getProductCategories = () => {
   return db("product_categories");
 };
@@ -40,7 +44,7 @@ const addProduct = (prod) => {
   return db("products")
     .insert(prod, [
       "name",
-      "quantity",
+      "stock",
       "details",
       "price",
       "category_id",
@@ -62,4 +66,5 @@ module.exports = {
   getProductCategoryByName,
   getProducts,
   getAllCategoryProducts,
+  getProductById
 };

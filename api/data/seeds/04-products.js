@@ -8,7 +8,7 @@ exports.seed = function (knex) {
         {
           product_id: -1,
           name: "Monstera Clay Earings",
-          quantity: 2,
+          stock: 200,
           details: "",
           price: 20.0,
           category_id: -1,
@@ -18,7 +18,7 @@ exports.seed = function (knex) {
         {
           product_id: -2,
           name: "Wildflower Screen Print Clay Earings",
-          quantity: 1,
+          stock: 100,
           details: "",
           price: 20.0,
           category_id: -1,

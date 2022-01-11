@@ -16,7 +16,7 @@ exports.up = async (knex) => {
     .createTable("products", (product) => {
       product.increments("product_id");
       product.string("name").notNullable();
-      product.integer("quantity");
+      product.integer("stock");
       product.string("details");
       product.float("price").notNullable();
       product
