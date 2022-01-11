@@ -27,7 +27,7 @@ router.post("/create", MW.validateCartPayload, async (req, res, next) => {
     }
 })
 
-router.put("/update/:cart_item_id", async (req, res, next) => {
+router.put("/update/:cart_item_id", MW.cartItemExists, async (req, res, next) => {
     try {
         const { body } = req
         const { cart_item_id } = req.params 
@@ -38,7 +38,7 @@ router.put("/update/:cart_item_id", async (req, res, next) => {
     }
 })
 
-router.delete("/delete/:cart_item_id", async (req, res, next) => {
+router.delete("/delete/:cart_item_id", MW.cartItemExists, async (req, res, next) => {
     try {
         const { cart_item_id } = req.params
         const removedCart = await Carts.removeCartItem(cart_item_id)
