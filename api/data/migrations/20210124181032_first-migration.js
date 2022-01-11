@@ -11,11 +11,11 @@ exports.up = async (knex) => {
     })
     .createTable("product_categories", (item) => {
       item.increments("category_id");
-      item.string("name").notNullable().unique();
+      item.string("category_name").notNullable().unique();
     })
     .createTable("products", (product) => {
       product.increments("product_id");
-      product.string("name").notNullable();
+      product.string("product_name").notNullable();
       product.integer("stock");
       product.string("details");
       product.float("price").notNullable();

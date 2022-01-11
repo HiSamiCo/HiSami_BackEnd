@@ -19,7 +19,7 @@ const cartItemExists = async (req, res, next) => {
         if(cartItem) {
             next()
         } else {
-            next({ message: "cart item does not exist", status: 400 })
+            next({ message: "This item is not in cart", status: 400 })
         }   
     } catch(err) {
         next(err)
