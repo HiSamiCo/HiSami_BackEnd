@@ -1,30 +1,22 @@
 const router = require("express").Router();
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+const Products = require("../routers/products/productsModel");
+const Carts = require("../routers/carts/cartsModel");
 
-
-
-router.post("/payment", async (req, res) => {
-    let { amount, id } = req.body;
-    try {
-        const payment = await stripe.paymentIntents.create({
-            amount,
-            currency: "USD",
-            description: "HISAMICO",
-            payment_method: id,
-            confirm: true
-        });
-        res.send({
-            clientSecret: payment.client_secret
-        })
-        res.json({
-            message: "Payment Successful",
-            success: true,
-        })
-    } catch (error) {
-        console.log("Error", error)
-        res.json({
-            message: "Payment Failed",
-            success: false,
-        })
+router.post("/payment/:stripe_id", async (req, res, next) => {
+  const { userCart } = req;
+  const { subject } = req.sentUser;
+  try {
+    for (const product of userCart) {
+      console.log(product);
+      const { product_id, newStock } = product;
+      await Products.updateProduct(product_id, { stock: newStock });
     }
+    const removedCart = await Carts.removeUserCart(subject);
+    res.status(200).json(removedCart);
+    // next();
+  } catch (err) {
+    next(err);
+  }
 });
+
+module.exports = router;

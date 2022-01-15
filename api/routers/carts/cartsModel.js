@@ -3,8 +3,8 @@ const db = require("../../data/db-config");
 const getUserCart = (user_id) => {
   return db("users_cart_products as u_c_p")
     .where({ user_id })
-    .join("products as p", "u_c_p.product_id", "=", "p.product_id")
-    .select("p.name", "p.image", "p.image", "u_c_p.*");
+    .join("products as p", "u_c_p.product_id", "p.product_id")
+    .select("p.product_name", "p.image", "u_c_p.*");
 };
 
 const addCart = (cart) => {
@@ -14,6 +14,9 @@ const addCart = (cart) => {
 };
 
 const getCartItemBy = (cart) => db("users_cart_products").where(cart);
+
+const removeUserCart = (user_id) =>
+  getCartItemBy({ user_id }).del().returning("*");
 
 const updateCartItem = (cart_item_id, cart) => {
   return getCartItemBy({ cart_item_id }).update(cart).returning("*");
@@ -29,4 +32,5 @@ module.exports = {
   updateCartItem,
   removeCartItem,
   getCartItemBy,
+  removeUserCart,
 };
