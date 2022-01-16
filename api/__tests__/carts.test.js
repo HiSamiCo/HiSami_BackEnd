@@ -41,3 +41,19 @@ describe("GET /api/carts", () => {
         expect(cart.body).toMatchObject(expectedCart)
     })
 })
+
+describe("POST /api/carts/create", () => {
+    it("returns the created cart item", async () => {
+        const expectedItem = { 
+            cart_item_id: 1, 
+            user_id: -1, 
+            product_id: -1, 
+            quantity: 2 
+        }
+        const createdItem = await agent
+            .post("/api/carts/create")
+            .set("authorization", token)
+            .send({ quantity: 2, product_id: -1 })
+        expect(createdItem.body).toMatchObject(expectedItem)
+    })
+})
