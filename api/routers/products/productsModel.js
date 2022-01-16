@@ -1,7 +1,11 @@
 const db = require("../../data/db-config.js");
 
 const addCategory = (categ) => {
-  return db("product_categories").insert(categ, "name");
+  return db("product_categories")
+    .insert(categ, [
+      "category_name", 
+      "category_id"
+    ]).then(([category]) => category)
 };
 
 const getProducts = () => {
