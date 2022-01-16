@@ -37,7 +37,7 @@ router.post(
 
 router.get("/category/products", async (req, res, next) => {
   try {
-    const categoryProducts = await Products.getAllCategoryProducts();
+    const categoryProducts = await Products.getCategories();
     res.status(200).json(categoryProducts);
   } catch (err) {
     next(err);
