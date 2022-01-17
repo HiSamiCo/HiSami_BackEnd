@@ -1,7 +1,11 @@
 const db = require("../../data/db-config.js");
 
 const addCategory = (categ) => {
-  return db("product_categories").insert(categ, "name");
+  return db("product_categories")
+    .insert(categ, [
+      "category_name", 
+      "category_id"
+    ]).then(([category]) => category)
 };
 
 const getProducts = () => {
@@ -60,19 +64,6 @@ const getProductCategories = () => {
   return db("product_categories");
 };
 
-const getAllCategoryProducts = async () => {
-  const products = await getCategories();
-  // // get array of all categories
-  // const categories = products.reduce((list, product) => {
-  //   return list.includes(product.category) ? list : [...list, product.category];
-  // }, []);
-  // // create object with key equal to category and value of products in that category
-  // const categoryProducts = categories.reduce((object, category) => {
-  //   object[category] = products.filter((p) => p.category === category);
-  //   return object;
-  // }, {});
-  return products;
-};
 
 const getProductCategoryByName = (name) => {
   return db("product_categories").where(name).first();
@@ -108,6 +99,5 @@ module.exports = {
   getProductCategories,
   getProductCategoryByName,
   getProducts,
-  getAllCategoryProducts,
   getProductById,
 };
