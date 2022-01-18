@@ -5,12 +5,12 @@ router.post("/payment/", async (req, res, next) => {
   const { userCart } = req 
   const line_items = userCart.map(item => ({
     quantity: item.quantity,
-    product_data: {
-      name: item.product_name,
-      images: item.image
-    },
     price_data: {
-      currecy: "USD",
+      product_data: {
+        name: item.product_name,
+        images: item.image
+      },
+      currecy: "usd",
       unit_amount: item.price * 100 
     }
   }))
