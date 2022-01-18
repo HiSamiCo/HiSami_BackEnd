@@ -17,33 +17,18 @@ router.post("/payment/", async (req, res, next) => {
   try {
     const session = await stripe.checkout.sessions.create({
       line_items,
-      success_url: "",
-      cancel_url: "",
+      success_url: "facebook.com",
+      cancel_url: "twitter.com",
       mode: "payment", 
       shipping_address_collection: {
         allowed_countries: "US"
-      },
-      confirm: true,
+      }
     });
     
     res.redirect(session.url)
   } catch (error) {
     next(error)
   }
-  // const { userCart } = req;
-  // const { subject } = req.sentUser;
-  // try {
-  //   for (const product of userCart) {
-  //     console.log(product);
-  //     const { product_id, newStock } = product;
-  //     await Products.updateProduct(product_id, { stock: newStock });
-  //   }
-  //   const removedCart = await Carts.removeUserCart(subject);
-  //   res.status(200).json(removedCart);
-  //   // next();
-  // } catch (err) {
-  //   next(err);
-  // }
 });
 
 module.exports = router;
