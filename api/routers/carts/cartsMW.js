@@ -1,7 +1,6 @@
 const Carts = require("./cartsModel");
 const cartSchema = require("../../schemas/cart");
 const Products = require("../products/productsModel");
-// const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 const validateCartPayload = async (req, res, next) => {
   try {
@@ -57,35 +56,8 @@ const validateUserCart = async (req, res, next) => {
   }
 };
 
-// const makePayment = async (req, res, next) => {
-//   const { stripe_id } = req.params;
-//   try {
-//     const payment = await stripe.paymentIntents.create({
-//       amount: 0,
-//       currency: "USD",
-//       description: "HISAMICO",
-//       payment_method: stripe_id,
-//       confirm: true,
-//     });
-//     res.send({
-//       clientSecret: payment.client_secret,
-//     });
-//     res.json({
-//       message: "Payment Successful",
-//       success: true,
-//     });
-//   } catch (error) {
-//     console.log("Error", error);
-//     res.json({
-//       message: "Payment Failed",
-//       success: false,
-//     });
-//   }
-// };
-
 module.exports = {
   validateCartPayload,
   cartItemExists,
   validateUserCart,
-  // makePayment,
 };
