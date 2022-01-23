@@ -11,7 +11,7 @@ const addCategory = (categ) => {
 const getProducts = () => {
   return db("products as p")
     .join("product_categories as p_c", "p.category_id", "p_c.category_id")
-    .select("p.*", "p_c.name as category");
+    .select("p.*", "p_c.category_name as category");
 };
 
 const getCategories = async () => {
