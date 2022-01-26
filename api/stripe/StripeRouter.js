@@ -1,9 +1,8 @@
 const router = require("express").Router();
 const Products = require("../routers/products/productsModel");
 const Carts = require("../routers/carts/cartsModel");
-const { cartItemExists } = require("../routers/carts/cartsMW");
 
-router.post("/payment/:stripe_id", async (req, res, next) => {
+router.post("/payment", async (req, res, next) => {
   const { userCart } = req;
   const { subject } = req.sentUser;
   try {
@@ -14,7 +13,6 @@ router.post("/payment/:stripe_id", async (req, res, next) => {
     }
     const removedCart = await Carts.removeUserCart(subject);
     res.status(200).json(removedCart);
-    // next();
   } catch (err) {
     next(err);
   }

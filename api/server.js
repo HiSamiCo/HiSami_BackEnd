@@ -20,7 +20,7 @@ server.use(
   "/api/stripe",
   userMW.isAuthorized,
   cartsMW.validateUserCart,
-  // cartsMW.makePayment,
+  cartsMW.makePayment,
   stripeRouter
 );
 
