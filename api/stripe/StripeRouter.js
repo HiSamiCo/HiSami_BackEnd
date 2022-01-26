@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const Products = require("../routers/products/productsModel");
 const Carts = require("../routers/carts/cartsModel");
+const { cartItemExists } = require("../routers/carts/cartsMW");
 
 router.post("/payment/:stripe_id", async (req, res, next) => {
   const { userCart } = req;

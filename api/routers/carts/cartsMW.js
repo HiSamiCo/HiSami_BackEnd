@@ -6,6 +6,7 @@ const Products = require("../products/productsModel");
 const validateCartPayload = async (req, res, next) => {
   try {
     const { body } = req;
+    // must contain quantity and product_id
     await cartSchema.validate(body);
     next();
   } catch (err) {
@@ -33,12 +34,18 @@ const validateUserCart = async (req, res, next) => {
     const { subject: user_id } = req.sentUser;
     const userCart = await Carts.getUserCart(user_id);
     const errors = [];
+    // must be written this way to use async await
     for (let i = 0; i < userCart.length; i++) {
       const item = userCart[i];
+      // get product associate
       const product = await Products.getProductById(item.product_id);
+      // calculate the new stock after purchase
       const stock = product.stock - item.quantity;
+      // adds the theoretically new stock to the list to be used later
       userCart[i] = { ...item, newStock: stock };
+      // if there isn't enough of the product in stock then add an error to the list
       if (stock < 0) {
+        // removes item from cart if there is not enough in stock
         await Carts.removeCartItem(item.cart_item_id);
         errors.push({
           status: 400,

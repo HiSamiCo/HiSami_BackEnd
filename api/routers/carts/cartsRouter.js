@@ -2,6 +2,7 @@ const router = require("express").Router();
 const Carts = require("./cartsModel");
 const MW = require("./cartsMW");
 
+// gets the currently logged user cart
 router.get("/", async (req, res, next) => {
   try {
     const cart = await Carts.getUserCart(req.sentUser.subject);
@@ -11,6 +12,7 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+// creates a new cart item for the current logged in user
 router.post("/create", MW.validateCartPayload, async (req, res, next) => {
   try {
     const { body, sentUser } = req;
@@ -23,6 +25,7 @@ router.post("/create", MW.validateCartPayload, async (req, res, next) => {
   }
 });
 
+// updates a cart quantity
 router.put(
   "/update/:cart_item_id",
   MW.cartItemExists,
@@ -38,6 +41,7 @@ router.put(
   }
 );
 
+// deletes a cart item
 router.delete(
   "/delete/:cart_item_id",
   MW.cartItemExists,

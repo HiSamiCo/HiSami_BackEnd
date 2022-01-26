@@ -1,15 +1,15 @@
 const request = require("supertest");
 const server = require("../server");
 const db = require("../data/db-config");
-const agent = request.agent(server)
+const agent = request.agent(server);
 
 jest.mock("../token-builder", () => ({
-  tokenBuilder: () => "this is your token"
-}))
+  tokenBuilder: () => "this is your token",
+}));
 
 jest.mock("bcrypt", () => ({
-  hashSync: (password) => password
-}))
+  hashSync: (password) => password,
+}));
 
 beforeAll(async () => {
   await db.migrate.rollback();
@@ -34,35 +34,38 @@ describe("server.js", () => {
 
 describe("GET /api/users", () => {
   it("returns all users", async () => {
-    const users = await agent.get("/api/users")
-    expect(users.body).toBeTruthy()
+    const users = await agent.get("/api/users");
+    expect(users.body).toBeTruthy();
   });
 });
 
-const testUser = { 
-  password: "password", 
-  first_name: "first_name", 
-  last_name: "last_name", 
-  email: "email@email.com" 
-}
+const testUser = {
+  password: "password",
+  first_name: "first_name",
+  last_name: "last_name",
+  email: "email@email.com",
+};
 
-const expected = { 
-  ...testUser, 
-  admin: false,
-  user_id: 1,
-}
+const expected = {
+  addedUser: {
+    ...testUser,
+    admin: false,
+    user_id: 1,
+  },
+  token: "this is your token",
+};
 
 describe("POST /api/users/create", () => {
   it("returns an added user", async () => {
-    const createdUser = await agent.post("/api/users/create").send(testUser)
-    expect(createdUser.status).toBe(201)
-    expect(createdUser.body).toMatchObject(expected)
-  })
-})
+    const createdUser = await agent.post("/api/users/create").send(testUser);
+    expect(createdUser.status).toBe(201);
+    expect(createdUser.body).toMatchObject(expected);
+  });
+});
 
-// const loginUser = { 
-//   email: "fake@fake.com", 
-//   password: "password" 
+// const loginUser = {
+//   email: "fake@fake.com",
+//   password: "password"
 // }
 
 // describe("POST /api/users/login", () => {

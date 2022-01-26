@@ -2,10 +2,8 @@ const db = require("../../data/db-config.js");
 
 const addCategory = (categ) => {
   return db("product_categories")
-    .insert(categ, [
-      "category_name", 
-      "category_id"
-    ]).then(([category]) => category)
+    .insert(categ, ["category_name", "category_id"])
+    .then(([category]) => category);
 };
 
 const getProducts = () => {
@@ -14,12 +12,13 @@ const getProducts = () => {
     .select("p.*", "p_c.category_name as category");
 };
 
-const getCategories = async () => {
+const getProductCategories = async () => {
+  // a list of all categories with products attached
   const response = await db("product_categories as c")
     .leftJoin("products as p", "c.category_id", "p.category_id")
     .select("c.*", "p.*", "c.category_id");
 
-
+  // returns a list of all categories and an array of all products, whether empty or not, associated to that category in the response. For use with creating initial state on first opening of the application
   const categories = response.reduce((list, product) => {
     const exists = list.find(
       (category) => category.category_name === product.category_name
@@ -37,12 +36,15 @@ const getCategories = async () => {
         ];
   }, []);
 
+  // a list of all categories with associated products attached
   const result = categories.map((category) => ({
     category_id: category.category_id,
     category_name: category.category_name,
     products: category.product_id
       ? response
-          .filter((p) => p.product_id && p.category_name === category.category_name)
+          .filter(
+            (p) => p.product_id && p.category_name === category.category_name
+          )
           .map((prod) => ({
             product_id: prod.product_id,
             product_name: prod.product_name,
@@ -60,10 +62,9 @@ const getProductById = (product_id) => {
   return db("products").where({ product_id }).first();
 };
 
-const getProductCategories = () => {
+const getCategories = () => {
   return db("product_categories");
 };
-
 
 const getProductCategoryByName = (name) => {
   return db("product_categories").where(name).first();

@@ -15,6 +15,7 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+// signup - creates a new user and "logs in" at the same time. Return the newly created user and a token
 router.post(
   "/create",
   MW.validateUserPayload,
@@ -23,13 +24,15 @@ router.post(
   async (req, res, next) => {
     try {
       const addedUser = await Users.insertUser(req.body);
-      res.status(201).json(addedUser);
+      const token = tokenBuilder(addedUser);
+      res.status(201).json({ token, addedUser });
     } catch (err) {
       next(err);
     }
   }
 );
 
+// logging in - returns a token for session maintenance to front end
 router.post("/login", MW.checkEmailExists, async (req, res, next) => {
   const { password } = req.body;
   const { password: hashedPassword } = req.user;
