@@ -4,7 +4,7 @@ const getUserCart = (user_id) => {
   return db("users_cart_products as u_c_p")
     .where({ user_id })
     .join("products as p", "u_c_p.product_id", "p.product_id")
-    .select("p.product_name", "p.image", "u_c_p.*");
+    .select("p.product_name", "p.image", "p.price", "u_c_p.*");
 };
 
 const addCart = (cart) => {
