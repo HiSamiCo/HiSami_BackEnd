@@ -45,6 +45,7 @@ const checkEmailExists = async (req, res, next) => {
 
 const HASH_ROUNDS = parseInt(process.env.HASH_ROUNDS) || 10;
 
+// hashes the sent password
 const hashPassword = (req, res, next) => {
   const { password } = req.body;
   const hashedPassword = bcrypt.hashSync(password, HASH_ROUNDS);
@@ -52,6 +53,7 @@ const hashPassword = (req, res, next) => {
   next();
 };
 
+// checks that the user is logged in
 const isAuthorized = (req, res, next) => {
   const token = req.headers.authorization;
   if (!token) {
@@ -63,6 +65,7 @@ const isAuthorized = (req, res, next) => {
   }
 };
 
+// checks if they are an admin
 const isAdmin = async (req, res, next) => {
   try {
     const { subject } = req.sentUser;

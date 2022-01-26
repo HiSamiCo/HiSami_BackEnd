@@ -3,15 +3,17 @@ const userMW = require("../users/usersMW.js");
 const Products = require("./productsModel");
 const MW = require("./productsMW.js");
 
+// gets a list of all product categories
 router.get("/category", async (req, res, next) => {
   try {
-    const categories = await Products.getProductCategories();
+    const categories = await Products.getCategories();
     res.status(200).json(categories);
   } catch (err) {
     next(err);
   }
 });
 
+// get a list of all products
 router.get("/products", async (req, res, next) => {
   try {
     const products = await Products.getProducts();
@@ -20,6 +22,8 @@ router.get("/products", async (req, res, next) => {
     next(err);
   }
 });
+
+// creates a product
 router.post(
   "/create/products",
   userMW.isAuthorized,
@@ -35,15 +39,17 @@ router.post(
   }
 );
 
+// gets all products with associated products attached
 router.get("/category/products", async (req, res, next) => {
   try {
-    const categoryProducts = await Products.getCategories();
+    const categoryProducts = await Products.getProductCategories();
     res.status(200).json(categoryProducts);
   } catch (err) {
     next(err);
   }
 });
 
+// adds a new category
 router.post(
   "/category",
   userMW.isAuthorized,
