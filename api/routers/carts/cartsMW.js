@@ -65,7 +65,8 @@ const validateUserCart = async (req, res, next) => {
 };
 
 const makePayment = async (req, res, next) => {
-  const { amount, id } = req.body;
+  const { amount, id, address, name } = req.body;
+  const { userCart } = req;
   try {
     await stripe.paymentIntents.create({
       amount,
@@ -73,8 +74,15 @@ const makePayment = async (req, res, next) => {
       description: "HISAMICO",
       payment_method: id,
       confirm: true,
+      shipping: {
+        address,
+        name,
+      },
+      metadata: {
+        userCart,
+      },
     });
-    next()
+    next();
   } catch (error) {
     console.log("Error", error);
     res.json({
