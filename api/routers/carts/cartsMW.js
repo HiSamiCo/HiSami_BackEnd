@@ -65,7 +65,7 @@ const validateUserCart = async (req, res, next) => {
 };
 
 const makePayment = async (req, res, next) => {
-  const { amount, id, address, name } = req.body;
+  const { amount, id, address, name, userCart } = req.body;
   try {
     await stripe.paymentIntents.create({
       amount,
@@ -76,6 +76,9 @@ const makePayment = async (req, res, next) => {
       shipping: {
         address,
         name
+      },
+      metadata: {
+        userCart
       }
     });
     next()
