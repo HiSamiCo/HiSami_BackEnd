@@ -26,11 +26,8 @@ server.use(
 
 // eslint-disable-next-line
 server.use((err, req, res, next) => {
-  const { status, message, stack } = err;
-  res.status(status || 500).json({
-    message,
-    stack,
-  });
+  const { status } = err;
+  res.status(status || 500).json(err);
 });
 
 module.exports = server;
