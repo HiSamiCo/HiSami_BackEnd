@@ -67,7 +67,10 @@ const validateUserCart = async (req, res, next) => {
 const makePayment = async (req, res, next) => {
   const { amount, id, shipping } = req.body;
   const { userCart } = req;
-  console.log(userCart);
+  const items = userCart.reduce((obj, item) => {
+    return { ...obj, [item.product_name]: item.quantity };
+  }, {});
+  console.log("outside try", items);
   try {
     await stripe.paymentIntents.create({
       amount,
@@ -76,6 +79,7 @@ const makePayment = async (req, res, next) => {
       payment_method: id,
       confirm: true,
       shipping,
+      metadata: items,
     });
     next();
   } catch (error) {

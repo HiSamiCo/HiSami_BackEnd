@@ -11,8 +11,8 @@ router.post("/payment", async (req, res, next) => {
       const { product_id, newStock } = product;
       await Products.updateProduct(product_id, { stock: newStock });
     }
-    const removedCart = await Carts.removeUserCart(subject);
-    res.status(200).json(removedCart);
+    // const removedCart = await Carts.removeUserCart(subject);
+    // res.status(200).json(removedCart);
   } catch (err) {
     next(err);
   }
