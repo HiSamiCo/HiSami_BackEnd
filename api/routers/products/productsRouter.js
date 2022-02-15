@@ -72,7 +72,7 @@ router.delete(
   async (req, res, next) => {
     try {
       const deletedProduct = await Products.deleteProduct(
-        req.params.product_id
+        parseInt(req.params.product_id)
       );
       res.status(200).json(deletedProduct);
     } catch (error) {
