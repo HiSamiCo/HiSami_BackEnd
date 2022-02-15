@@ -7,6 +7,7 @@ const tokenBuilder = (user) => {
     subject: user.user_id,
     email: user.email,
     password: user.password,
+    admin: user.admin,
   };
   const options = {
     expiresIn: "1d",
