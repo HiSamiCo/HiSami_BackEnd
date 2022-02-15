@@ -71,9 +71,8 @@ router.delete(
   userMW.isAdmin,
   async (req, res, next) => {
     try {
-      const deletedProduct = await Products.deleteProduct(
-        req.params.product_id
-      );
+      const { product_id } = req.params;
+      const deletedProduct = await Products.deleteProduct(parseInt(product_id));
       res.status(200).json(deletedProduct);
     } catch (error) {
       next(error);
