@@ -65,4 +65,20 @@ router.post(
   }
 );
 
+router.delete(
+  "/delete/:product_id",
+  userMW.isAuthorized,
+  userMW.isAdmin,
+  async (req, res, next) => {
+    try {
+      const deletedProduct = await Products.deleteProduct(
+        req.params.product_id
+      );
+      res.status(200).json(deletedProduct);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 module.exports = router;

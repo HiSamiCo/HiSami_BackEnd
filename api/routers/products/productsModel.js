@@ -91,6 +91,10 @@ const updateProduct = (prod_id, newProd) => {
   return db("products").where("product_id", prod_id).update(newProd);
 };
 
+const deleteProduct = (prod_id) => {
+  return db("products").where("product_id", prod_id).del();
+};
+
 module.exports = {
   addCategory,
   updateCategory,
@@ -101,4 +105,5 @@ module.exports = {
   getProductCategoryByName,
   getProducts,
   getProductById,
+  deleteProduct,
 };
